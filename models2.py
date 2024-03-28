@@ -14,7 +14,7 @@ from typing import List
 import langid
 
 from saved_model import model, tokenizer,names, target_languages,identify_language,answer_question
-
+# from setup import download_model
 
 
 sys.stdout.reconfigure(encoding='utf-8')
@@ -47,6 +47,11 @@ def translate(input_str,language):
             words: List[str] = tokenizer[(id, language)].batch_decode(gen, skip_special_tokens=True)
             return (words)
     return input_str
+
+def download_model(src, trg):
+    # config = MarianConfig.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
+    model[(src, trg)] = MarianMTModel.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
+    tokenizer[(src, trg)] = MarianTokenizer.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
 
 
 def ask_query(query):

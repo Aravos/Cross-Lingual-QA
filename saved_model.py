@@ -24,14 +24,16 @@ def answer_question(document, question, model, tokenizer):
     return answer
 
 def identify_language(query):
-    langid.set_languages(['en', 'fr', 'es', 'de', 'ja', 'zh', 'ko', 'vi'])
+    langid.set_languages(['en', 'fr', 'de', 'ja', 'zh', 'ko', 'vi'])
     lang, confidence = langid.classify(query)
     return lang
 
 def download_model(src, trg):
-    config = MarianConfig.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
+    # config = MarianConfig.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
     model[(src, trg)] = MarianMTModel.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
     tokenizer[(src, trg)] = MarianTokenizer.from_pretrained(f'Helsinki-NLP/opus-mt-{src}-{trg}')
+
+names = {"ar": {},"de": {},"en": {},"vi": {},"zh": {}}
 
 # for id in names.keys():
 #     for language in names.keys():
@@ -42,12 +44,6 @@ def download_model(src, trg):
 #             if (id, language) not in model or (id, language) not in tokenizer:
 #                 download_model(id, language)
 
-
-names = {"ar": {},
-         "de": {},
-         "en": {},
-         "vi": {},
-         "zh": {}}
 
 target_languages = ["en", "ar", "vi", "de", "zh"]
 
